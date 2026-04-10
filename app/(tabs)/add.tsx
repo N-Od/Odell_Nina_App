@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { Pressable, Text, TextInput, View, Keyboard } from "react-native";
+import {
+  Pressable,
+  Text,
+  TextInput,
+  ScrollView,
+  View,
+  Keyboard,
+} from "react-native";
 import { router } from "expo-router";
 import { useChores } from "../lib/ChoresContext";
 
@@ -17,44 +24,111 @@ export default function AddChoreScreen() {
   }
 
   return (
-    <View style={{ flex: 1, backgroundColor: "#F4F6F4", padding: 20 }}>
-      <Text style={{ fontSize: 24, fontWeight: "700", color: "#2E2E2E" }}>
+    <ScrollView
+      style={{ flex: 1, backgroundColor: "#E3F0EA" }}
+      contentContainerStyle={{ padding: 14, paddingBottom: 140 }}
+      keyboardShouldPersistTaps="handled"
+    >
+      <Text style={{ fontSize: 26, fontWeight: "700", color: "#2E2E2E" }}>
         Add a Chore
       </Text>
 
-      <Text style={{ marginTop: 8, fontSize: 16, color: "#2E2E2E" }}>
-        Keep it small.
-      </Text>
-
-      <TextInput
-        value={text}
-        onChangeText={setText}
-        placeholder="Example: Wipe sink (3 min)"
+      <View
         style={{
-          marginTop: 20,
-          borderWidth: 1,
-          borderColor: "#D8E2DC",
-          borderRadius: 12,
+          marginTop: 12,
           padding: 12,
-          fontSize: 16,
-          backgroundColor: "#FFFFFF",
-        }}
-      />
-
-      <Pressable
-        onPress={handleAdd}
-        style={{
-          marginTop: 14,
-          backgroundColor: "#6A9C89",
-          padding: 14,
           borderRadius: 12,
-          alignItems: "center",
+          borderWidth: 3,
+          borderColor: "#4F7C6B",
+          backgroundColor: "#EAF3FA",
         }}
       >
-        <Text style={{ color: "#FFFFFF", fontWeight: "700" }}>
-          Add to List
+        <Text style={{ fontSize: 15, lineHeight: 22, color: "#2E2E2E" }}>
+          Add one small task at a time. Keeping chores short and manageable
+          makes it easier to start.
         </Text>
-      </Pressable>
-    </View>
+      </View>
+
+      <View
+        style={{
+          marginTop: 12,
+          padding: 12,
+          borderRadius: 12,
+          borderWidth: 3,
+          borderColor: "#4F7C6B",
+          backgroundColor: "#DFF1E7",
+        }}
+      >
+        <Text
+          style={{
+            fontSize: 16,
+            fontWeight: "700",
+            color: "#2E2E2E",
+            marginBottom: 10,
+          }}
+        >
+          ✍️ Chore Name
+        </Text>
+
+        <TextInput
+          value={text}
+          onChangeText={setText}
+          placeholder="Example: Wipe sink (3 min)"
+          placeholderTextColor="#666666"
+          style={{
+            borderWidth: 2,
+            borderColor: "#4F7C6B",
+            borderRadius: 10,
+            paddingVertical: 12,
+            paddingHorizontal: 12,
+            fontSize: 15,
+            backgroundColor: "#FFFFFF",
+            color: "#2E2E2E",
+            minHeight: 48,
+            cursor: "text",
+          }}
+          multiline={false}
+          returnKeyType="default"
+          blurOnSubmit={false}
+        />
+
+        <Text
+          style={{
+            marginTop: 10,
+            fontSize: 13,
+            lineHeight: 18,
+            color: "#2E2E2E",
+          }}
+        >
+          Try to keep it simple and specific.
+        </Text>
+      </View>
+
+      <View
+        style={{
+          marginTop: 28,
+          marginBottom: 40,
+        }}
+      >
+        <Pressable
+          onPress={() => {
+            Keyboard.dismiss();
+            handleAdd();
+          }}
+          style={{
+            paddingVertical: 12,
+            paddingHorizontal: 12,
+            borderRadius: 10,
+            backgroundColor: "#6A9C89",
+            alignItems: "center",
+            cursor: "pointer",
+          }}
+        >
+          <Text style={{ color: "#FFFFFF", fontWeight: "700", fontSize: 14 }}>
+            Add to List
+          </Text>
+        </Pressable>
+      </View>
+    </ScrollView>
   );
 }
