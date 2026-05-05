@@ -11,6 +11,7 @@ type ChoresContextValue = {
   addChore: (title: string) => void;
   toggleChore: (id: string) => void;
   deleteChore: (id: string) => void;
+  clearCompleted: () => void;
 };
 
 const ChoresContext = createContext<ChoresContextValue | null>(null);
@@ -42,16 +43,26 @@ export function ChoresProvider({ children }: { children: React.ReactNode }) {
     setChores((prev) => prev.filter((c) => c.id !== id));
   }
 
+  function clearCompleted() {
+    setChores((prev) => prev.filter((c) => !c.done));
+  }
+
   const value = useMemo(
-    () => ({ chores, addChore, toggleChore, deleteChore }),
+    () => ({ chores, addChore, toggleChore, deleteChore, clearCompleted }),
     [chores]
   );
 
-  return <ChoresContext.Provider value={value}>{children}</ChoresContext.Provider>;
+  return (
+    <ChoresContext.Provider value={value}>
+      {children}
+    </ChoresContext.Provider>
+  );
 }
 
 export function useChores() {
   const ctx = useContext(ChoresContext);
-  if (!ctx) throw new Error("useChores must be used inside ChoresProvider");
+  if (!ctx) {
+    throw new Error("useChores must be used inside ChoresProvider");
+  }
   return ctx;
 }
